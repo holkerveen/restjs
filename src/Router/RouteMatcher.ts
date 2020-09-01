@@ -1,4 +1,5 @@
 import {IncomingMessage} from "http";
+import {Route} from "./Route";
 
 export interface RouteCriteria {
     method?: 'GET' | 'POST';
@@ -19,4 +20,12 @@ export function match(criteria: RouteCriteria, request: IncomingMessage): { [nam
     }
     // @todo implement more tests
     return parameters;
+}
+
+export function resolve(request: IncomingMessage, routes: Route[]): Route | null {
+    for (let i = 0; i < routes.length; i++) {
+        const m = match(routes[i].criteria, request);
+        if (m === false) continue;
+        return {...routes[i], ...{resolvedParameters: m}};
+    }
 }

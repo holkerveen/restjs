@@ -10,12 +10,14 @@ export default class RestController {
         response.writeHead(200, {'Content-Type': 'application/json'});
         const result = await this.repository.find();
         response.write(JSON.stringify(result), 'utf-8');
+        response.end();
         return response;
     }
 
     get(request: IncomingMessage, response: ServerResponse, parameters ?: RouteParameters) {
         response.writeHead(200, {'Content-Type': 'application/json'});
         response.write(JSON.stringify(this.repository.load(parseInt(parameters.id))), 'utf-8');
+        response.end();
         return response;
     }
 
