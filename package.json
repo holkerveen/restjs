@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "watch": "npx webpack -w",
+    "run": "node dist/server.js -f server.json"
   },
   "keywords": [],
   "author": "",

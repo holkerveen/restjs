@@ -11,7 +11,7 @@ interface DataStoreInterface {
 
     delete(tableName: string, id: Number): void;
 
-    find(tableName: string, id: Number): DataRow;
+    find(tableName: string, id: Number): Promise<DataRow>;
 
-    query(tableName: string, conditions: Condition | ConditionGroup): DataRow[];
+    query(tableName: string, conditions?: (Condition | ConditionGroup)): Promise<DataRow[]>;
 }
