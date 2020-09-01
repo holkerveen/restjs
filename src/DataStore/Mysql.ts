@@ -8,8 +8,12 @@ export default class Mysql implements DataStoreInterface, TransactionInterface {
     endTransaction(): void {
     }
 
-    find(tableName: string, id: Number): Promise<DataRow> {
-        return undefined;
+    async find(tableName: string, id: Number): Promise<DataRow> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`SELECT * FROM ?? WHERE id = ? LIMIT 1`, [tableName, id], (error: any, results: any) => {
+                error ? reject(error) : resolve(results[0]);
+            });
+        });
     }
 
     insert(tableName: string, data: DataRow | DataRow[]): Number {

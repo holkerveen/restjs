@@ -1,7 +1,7 @@
 import ModelInterface from "../Model/ModelInterface";
 
 export default interface RepositoryInterface {
-    load(id: number): ModelInterface;
+    load(id: number): Promise<ModelInterface>;
 
     find(param?: { [k: string]: any }): Promise<ModelInterface[]>;
 

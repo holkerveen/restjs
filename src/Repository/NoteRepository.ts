@@ -11,8 +11,8 @@ export default class NoteRepository implements RepositoryInterface {
         return <NoteModel[]>result;
     }
 
-    load(id: number): NoteModel {
-        return {id: 1, text: 'henk', owner: 1};
+    async load(id: number): Promise<NoteModel> {
+        return <NoteModel>await this.data.find('note',id);
     }
 
     save(id: number, model: ModelInterface): void {

@@ -11,8 +11,8 @@ export default class UserRepository implements RepositoryInterface {
         return <UserModel[]>result;
     }
 
-    load(id: number): UserModel {
-        return {id: 2, email: 'piet', password: ''};
+    async load(id: number): Promise<UserModel> {
+        return <UserModel> await this.data.find('user',id);
     }
 
     save(id: number, model: ModelInterface): void {

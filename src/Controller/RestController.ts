@@ -2,6 +2,7 @@ import RepositoryInterface from "../Repository/RepositoryInterface";
 import {ModelDefinition} from "../Model/ModelManager";
 import {IncomingMessage, ServerResponse} from "http";
 import {RouteParameters} from "../Router/RouteMatcher";
+import {fileNotFound} from "../ResponseHelpers";
 
 export default class RestController {
     private repository: RepositoryInterface;
@@ -14,9 +15,11 @@ export default class RestController {
         return response;
     }
 
-    get(request: IncomingMessage, response: ServerResponse, parameters ?: RouteParameters) {
+    async get(request: IncomingMessage, response: ServerResponse, parameters ?: RouteParameters) {
         response.writeHead(200, {'Content-Type': 'application/json'});
-        response.write(JSON.stringify(this.repository.load(parseInt(parameters.id))), 'utf-8');
+        const result = await this.repository.load(parseInt(parameters.id));
+        if(!result) return fileNotFound(response);
+        response.write(JSON.stringify(await this.repository.load(parseInt(parameters.id))), 'utf-8');
         response.end();
         return response;
     }
