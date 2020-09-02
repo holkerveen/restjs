@@ -5,6 +5,6 @@ export default interface RepositoryInterface {
 
     find(param?: { [k: string]: any }): Promise<ModelInterface[]>;
 
-    save(id: number, model: ModelInterface): void;
+    save(model: ModelInterface, id?: number): Promise<void>;
 }
 

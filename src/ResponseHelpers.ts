@@ -21,3 +21,14 @@ export function serverError(response: ServerResponse): ServerResponse {
     }), "utf-8");
     return response;
 }
+
+export function badRequest(response: ServerResponse): ServerResponse {
+    response.writeHead(400, "Bad request", {"Content-Type": "application/json"});
+    response.end(JSON.stringify({
+        error: {
+            code: 400,
+            message: "Bad Request",
+        }
+    }), "utf-8");
+    return response;
+}

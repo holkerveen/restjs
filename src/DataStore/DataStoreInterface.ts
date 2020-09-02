@@ -5,9 +5,9 @@ type ConditionGroup = { type: 'and' | 'or', conditions: (Condition | ConditionGr
 
 interface DataStoreInterface {
 
-    insert(tableName: string, data: DataRow | DataRow[]): Number;
+    insert(tableName: string, data: DataRow): Promise<void>;
 
-    update(tableName: string, id: Number, data: DataRow | DataRow[]): void;
+    update(tableName: string, data: DataRow): Promise<void>;
 
     delete(tableName: string, id: Number): void;
 

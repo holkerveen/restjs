@@ -16,8 +16,14 @@ export default class Mysql implements DataStoreInterface, TransactionInterface {
         });
     }
 
-    insert(tableName: string, data: DataRow | DataRow[]): Number {
-        return 0;
+    async insert(tableName: string, data: DataRow): Promise<void> {
+        if (data.id) throw Error("Cannot insert a model which already has an id");
+        return new Promise((resolve, reject) => {
+            this.connection.query(`INSERT INTO ?? SET ?`, [tableName, data], (error: any, result: any) => {
+                data.id = result.insertId;
+                error ? reject(error) : resolve();
+            });
+        });
     }
 
     async query(tableName: string, conditions?: (Condition | ConditionGroup)): Promise<DataRow[]> {
@@ -37,7 +43,16 @@ export default class Mysql implements DataStoreInterface, TransactionInterface {
     startTransaction(): void {
     }
 
-    update(tableName: string, id: Number, data: DataRow | DataRow[]): void {
+    async update(tableName: string, data: DataRow): Promise<void> {
+        const id: number = data.id;
+        if (!id) throw Error("Can only update already existing models");
+
+        data.id = undefined;
+        return new Promise((resolve, reject) => {
+            this.connection.query(`UPDATE ?? SET ? WHERE id=? LIMIT 1`, [tableName, data, id], (error: any) => {
+                error ? reject(error) : resolve();
+            });
+        });
     }
 
     connect(config: {

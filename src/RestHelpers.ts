@@ -26,6 +26,13 @@ export function createRestRoutes(...models: ModelType[]): Route[] {
             action: restController.get.bind(restController),
         });
 
+        routes.push({
+            criteria: {
+                method: 'POST',
+                path: new RegExp(`^/${definition.name}$`),
+            },
+            action: restController.create.bind(restController),
+        });
     });
 
     return routes;
