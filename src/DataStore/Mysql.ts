@@ -47,10 +47,14 @@ export default class Mysql implements DataStoreInterface, TransactionInterface {
         const id: number = data.id;
         if (!id) throw Error("Can only update already existing models");
 
-        data.id = undefined;
+        delete data.id;
         return new Promise((resolve, reject) => {
             this.connection.query(`UPDATE ?? SET ? WHERE id=? LIMIT 1`, [tableName, data, id], (error: any) => {
-                error ? reject(error) : resolve();
+                if (error) reject(error);
+                else {
+                    data.id = id;
+                    resolve();
+                }
             });
         });
     }

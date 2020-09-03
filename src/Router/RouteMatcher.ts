@@ -2,7 +2,7 @@ import {IncomingMessage} from "http";
 import {Route} from "./Route";
 
 export interface RouteCriteria {
-    method?: 'GET' | 'POST';
+    method?: 'GET' | 'POST' | 'PUT';
     path?: RegExp;
 }
 

@@ -38,6 +38,18 @@ export default class RestController {
         return response;
     }
 
+    async update(request: IncomingMessage, response: ServerResponse) {
+        const data = <ModelInterface | false>await readIncomingMessageDataJson(request);
+        if (data === false) return badRequest(response);
+        if (!data.hasOwnProperty('id')) return badRequest(response);
+
+        let model: ModelInterface = await this.repository.load(data.id);
+        model = {...model, ...data};
+        await this.repository.save(model);
+        response.end(JSON.stringify(model), 'utf-8');
+        return response;
+    }
+
     setModelDefinition(modelDefinition: ModelDefinition) {
         if (!modelDefinition.repository) {
             throw Error(`Model '${modelDefinition.name}' does not have an associated repository`);

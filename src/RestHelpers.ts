@@ -33,6 +33,14 @@ export function createRestRoutes(...models: ModelType[]): Route[] {
             },
             action: restController.create.bind(restController),
         });
+
+        routes.push({
+            criteria: {
+                method: 'PUT',
+                path: new RegExp(`^/${definition.name}$`),
+            },
+            action: restController.update.bind(restController),
+        });
     });
 
     return routes;
