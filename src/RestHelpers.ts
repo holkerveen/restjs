@@ -41,6 +41,14 @@ export function createRestRoutes(...models: ModelType[]): Route[] {
             },
             action: restController.update.bind(restController),
         });
+
+        routes.push({
+            criteria: {
+                method: 'DELETE',
+                path: new RegExp(`^/${definition.name}/(?<id>[0-9]+)$`),
+            },
+            action: restController.delete.bind(restController),
+        })
     });
 
     return routes;

@@ -2,10 +2,13 @@ import {createConnection} from "mysql";
 
 export default class Mysql implements DataStoreInterface, TransactionInterface {
     private connection: any;
-    delete(tableName: string, id: Number): void {
-    }
 
-    endTransaction(): void {
+    async delete(tableName: string, id: Number): Promise<void> {
+        return new Promise((resolve, reject) => {
+            this.connection.query(`DELETE FROM ?? WHERE id = ? LIMIT 1`, [tableName, id], (error: any, results: any) => {
+                error ? reject(error) : resolve(results[0]);
+            });
+        })
     }
 
     async find(tableName: string, id: Number): Promise<DataRow> {
@@ -41,6 +44,9 @@ export default class Mysql implements DataStoreInterface, TransactionInterface {
     }
 
     startTransaction(): void {
+    }
+
+    endTransaction(): void {
     }
 
     async update(tableName: string, data: DataRow): Promise<void> {

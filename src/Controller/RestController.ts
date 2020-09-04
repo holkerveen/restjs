@@ -50,6 +50,11 @@ export default class RestController {
         return response;
     }
 
+    async delete(request: IncomingMessage, response: ServerResponse, parameters ?: RouteParameters) {
+        await this.repository.delete(parseInt(parameters.id));
+        response.end();
+    }
+
     setModelDefinition(modelDefinition: ModelDefinition) {
         if (!modelDefinition.repository) {
             throw Error(`Model '${modelDefinition.name}' does not have an associated repository`);

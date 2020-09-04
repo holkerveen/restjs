@@ -21,4 +21,8 @@ export default class UserRepository implements RepositoryInterface {
             : await this.data.insert('note', model);
     }
 
+    async delete(id: number): Promise<void> {
+        return await this.data.delete('note', id);
+    }
+
 }

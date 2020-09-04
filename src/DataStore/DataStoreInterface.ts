@@ -9,7 +9,7 @@ interface DataStoreInterface {
 
     update(tableName: string, data: DataRow): Promise<void>;
 
-    delete(tableName: string, id: Number): void;
+    delete(tableName: string, id: Number): Promise<void>;
 
     find(tableName: string, id: Number): Promise<DataRow>;
 
